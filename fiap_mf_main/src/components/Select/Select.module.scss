@@ -1,0 +1,55 @@
+.transactionSelect {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #004D61;
+  background: #FFFFFF;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.36px;
+  text-align: left;
+  border-radius: 8px !important;
+  padding: 12px 8px;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:hover, &:focus {
+    border: 1px solid #47A138;
+  }
+
+  & fieldset {
+    border: none;
+  }
+}
+
+.transactionOption {
+  padding: 16px 8px;
+  border: none;
+  color: #444444;
+  background-color: #fff;
+  
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.36px;
+  text-align: center;
+  
+  &:hover, &:focus-visible {
+    font-weight: 700;
+    background-color: #E4EDE3;
+  }
+
+  &:disabled {
+    font-weight: 400;
+    background-color: #d4d4d4;
+    font-style: italic;
+    &:hover {
+      background-color: #d4d4d4;
+    }
+  }
+}
+
+.selectedOption {
+  font-weight: 700;
+  background-color: #E4EDE3 !important;
+}

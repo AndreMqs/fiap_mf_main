@@ -1,0 +1,59 @@
+.statementContainer {
+  width: 282px;
+  height: auto;
+  max-height: 100vh;
+  background-color: #F5F5F5;
+  padding: 32px 24px;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  .statementHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    max-width: 240px;
+    width: 100%;
+  }
+  
+  .headerTitle {
+    font-size: 25px;
+    color: #000000;
+    font-weight: 700;
+    line-height: 30.26px;
+  }
+  
+  .headerButton {
+    font-size: 25px;
+    width: 40px;
+    height: 40px;
+    background-color: #004D61 !important;
+    color: #fff !important;
+  
+    &:hover {
+      background-color: #DEE9EA !important;
+      color: #004D61 !important;
+    }
+  }
+  
+  .headerButtonsContainer {
+    display: flex;
+    gap: 16px;
+    margin-left: 16px;
+  }
+
+  .statementsListContainer {
+    max-width: 240px;
+    width: 100%;
+  }
+}
+

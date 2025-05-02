@@ -1,0 +1,44 @@
+.singleStatementContainer {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 38px;
+  justify-content: space-between;
+  
+  .typeAndDateContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+    & .type {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19.36px;
+      text-align: left;
+      color: #000000;
+    }
+    
+    & .date {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 15.73px;
+      text-align: left;
+      color: #8B8B8B;
+    }
+  }
+
+  .inputMoney {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19.36px;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #47A138;
+    background-color: transparent;
+    padding: 8px 0px;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+.singleStatementContainer {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 38px;
+  justify-content: space-between;
+}
+
+.month {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 15.73px;
+  text-align: left;
+  color: #47A138;
+  margin-bottom: 8px;
+}
+
+
+.typeAndDateContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  & .type {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.36px;
+    text-align: left;
+  }
+  
+  & .date {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15.73px;
+    text-align: left;
+  }
+}
+
+.moneyValue {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.36px;
+  text-align: left;
+}
+
+.listContainer {
+  margin-top: 8px;
+}

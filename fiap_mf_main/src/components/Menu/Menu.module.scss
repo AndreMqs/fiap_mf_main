@@ -1,0 +1,54 @@
+.menuContainer {
+  width: 180px;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: #F5F5F5;
+  padding: 16px 24px;
+  padding-bottom: 32px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 32px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+    gap: 16px;
+    padding: 32px 0px;
+    padding-top: 16px;
+  }
+
+  @media (max-width: 425px) {
+    display: none;
+  }
+
+  .menuItem {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19.36px;
+    text-align: center;
+    color: #000000;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    text-decoration: none;
+    padding: 16px 0px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      border: none;
+    }
+    
+    &:hover {
+      border-bottom: 1px solid #47A138;
+      color: #47A138;
+    }
+  }
+
+  & .itemSelected {
+    border-bottom: 1px solid #47A138 !important;
+    color: #47A138 !important;
+  }
+}

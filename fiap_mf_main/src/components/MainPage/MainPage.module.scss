@@ -1,0 +1,66 @@
+.header {
+  height: 96px;
+  width: 100%;  
+  margin-bottom: 24px;
+}
+
+.flexRowCenterContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.mainContentContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 0px 60px;
+    padding-bottom: 70px;
+  }
+
+  @media (max-width: 425px) {
+    flex-direction: column;
+    padding: 0px 24px;
+    padding-bottom: 36px;
+  }
+}
+
+.flexColumnCenterContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.menuContainer {
+  width: 180px;
+  height: 100%;
+}
+
+.middleContentContainer {
+  width: 690px;
+  margin: 0px 24px 34px 24px;
+
+  & .welcomeContainer {
+    height: 402px;
+  }
+
+  & .transactionContainer {
+    height: 478px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0px;
+  }
+}
+
+.statementContainer {
+  width: 282px;
+}

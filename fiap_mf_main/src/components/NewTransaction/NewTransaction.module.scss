@@ -1,0 +1,119 @@
+.transactionContainer {
+  height: 478px;
+  background-color: #CBCBCB;
+  border-radius: 8px;
+  padding: 32px;
+  position: relative;
+  background-image: url('../../images/TransactionBackground.svg');
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-origin: content-box, padding-box;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 32px;
+  }
+  
+  @media (max-width: 425px) {
+    margin-bottom: 24px;
+    flex-direction: column;
+    height: 100%;
+    padding: 32px 16px 350px 16px;
+    background-origin: initial;
+    background-position: 30% 95%;
+  }
+}
+
+.transactionContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  gap: 32px;
+
+  @media (max-width: 425px) {
+    margin: 0;
+    align-items: center;
+  }
+
+  & .title {
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 30.26px;
+    text-align: center;
+    color: #DEE9EA;
+  }
+
+  .selectContainer {
+    width: 355px;
+    height: 48px;
+
+    @media (max-width: 425px) {
+      width: 100%;
+    }
+  }
+
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 250px;
+    
+    @media (max-width: 425px) {
+      align-items: center;
+      justify-content: flex-start;
+      width: 144px;
+    }
+    
+    & .inputLabel {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 19.36px;
+      text-align: left;
+      color: #DEE9EA;
+      margin-bottom: 16px;
+    }
+    
+    & .inputValue {
+      border: 1px solid #004D61;
+      background-color: #fff;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19.36px;
+      text-align: center;
+      border-radius: 8px;
+      height: 48px;
+      width: 100%;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
+  .finishTransaction {
+    width: 250px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: #004D61;
+    color: #fff;
+    border: none;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19.36px;
+    text-align: center;
+
+    &:hover {
+      background-color: #000000;
+    }
+
+    @media (max-width: 425px) {
+      width: 144px;
+    }
+  }
+}
