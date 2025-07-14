@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     federation({
-      name: 'fiap_mf_home',
+      name: 'fiap_mf_main',
       filename: 'remoteEntry.js',
       exposes: {
         './Main': './src/App.tsx'
