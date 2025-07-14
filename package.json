@@ -7,8 +7,8 @@
     "dev": "vite --port 3002 --strictPort",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --port 3002 --strictPort",
-    "serve": "vite preview --port 3002 --strictPort"
+    "preview": "vite preview --port 3002 --strictPort --host",
+    "serve": "vite preview --port 3002 --strictPort --host"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
