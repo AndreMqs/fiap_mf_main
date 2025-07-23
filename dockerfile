@@ -23,10 +23,8 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d/default.conf
-USER appuser
+USER root
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
-
