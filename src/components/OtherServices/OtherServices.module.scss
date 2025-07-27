@@ -1,0 +1,86 @@
+.otherServicesContainer {
+  background-color: #CBCBCB;
+  border-radius: 8px;
+  padding: 32px;
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-image: url('../../images/BackgroundDesktop.svg');
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-origin: content-box, padding-box;
+
+  @media (max-width: 768px) {
+    padding: 32px 24px;
+    background-image: url('../../images/BackgroundTablet.svg');
+  }
+  @media (max-width: 425px) {
+    padding: 24px 8px 350px 8px;
+    background-image: url('../../images/BackgroundMobile.svg');
+  }
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #000;
+  line-height: 30px;
+  margin-bottom: 32px;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 24px;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+  @media (max-width: 425px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 16px;
+  }
+}
+
+.card {
+  background: #F2F2F2;
+  border-radius: 8px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s;
+  min-height: 145px;
+  min-width: 173px;
+  @media (max-width: 768px) {
+    min-width: 120px;
+    min-height: 120px;
+    padding: 20px 16px;
+  }
+  @media (max-width: 425px) {
+    min-width: 100%;
+    min-height: 100px;
+    padding: 16px 8px;
+  }
+}
+
+.selected {
+  border: 2px solid #47A138;
+}
+
+.cardLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 16px;
+  text-align: center;
+} 

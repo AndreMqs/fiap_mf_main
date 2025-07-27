@@ -1,0 +1,137 @@
+.myCardsContainer {
+  background-color: #CBCBCB;
+  border-radius: 8px;
+  padding: 32px;
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-image: url('../../images/BackgroundDesktop.svg');
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-origin: content-box, padding-box;
+
+  @media (max-width: 768px) {
+    padding: 32px 24px;
+    background-image: url('../../images/BackgroundTablet.svg');
+  }
+  @media (max-width: 425px) {
+    padding: 24px 8px 350px 8px;
+    background-image: url('../../images/BackgroundMobile.svg');
+  }
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #000;
+  line-height: 30px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+  margin-right: 8px;
+  padding: 0;
+}
+
+.section {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: #2F2E41;
+  margin-bottom: 16px;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.cardRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+  @media (max-width: 425px) {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}
+
+.cardImage {
+  width: 320px;
+  height: 160px;
+  border-radius: 12px;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    max-width: 320px;
+  }
+}
+
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 8px;
+  @media (max-width: 425px) {
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.configButton {
+  width: 250px;
+  height: 48px;
+  border-radius: 8px;
+  background: #FF5031;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.blockButton {
+  width: 250px;
+  height: 48px;
+  border-radius: 8px;
+  background: #fff;
+  color: #BF1313;
+  border: 2px solid #BF1313;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cardFunction {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2F2E41;
+  margin-top: 8px;
+  @media (max-width: 425px) {
+    text-align: center;
+    width: 100%;
+  }
+} 

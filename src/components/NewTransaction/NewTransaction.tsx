@@ -3,21 +3,37 @@ import { useState } from 'react';
 import Select from '../Select/Select';
 
 import { parseMoneyValue } from '../../utils/stringUtils';
+import { Statement } from '../../models/Statement';
 
 import styles from "./NewTransaction.module.scss"
 
 
 export default function NewTransaction(props: NewTransactionProps) {
+  const { addStatement } = props;
+  
   const transactionOptions = [
     'Câmbio de Moeda',
     'DOC/TED',
     'Empréstimo e Financiamento',
   ];
   
-  const {} = props;
   const [selectedValue, setSelectValue] = useState<string>('');
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+
+  const handleFinishTransaction = () => {
+    if (selectedValue && inputValue) {
+      const value = parseFloat(inputValue.replace(/[^\d.-]/g, ''));
+      if (!Number.isNaN(value)) {
+        addStatement({
+          type: selectedValue,
+          moneyValue: value,
+        });
+        setSelectValue('');
+        setInputValue('');
+      }
+    }
+  };
 
   const getButtonText = () => {
     if (typeof window !== "undefined" && window.screen.width <= 425) {
@@ -69,11 +85,17 @@ export default function NewTransaction(props: NewTransactionProps) {
             onBlur={() => setIsFocused(false)}
           />
         </span>
-        <button className={styles.finishTransaction}>{getButtonText()}</button>
+        <button 
+          className={styles.finishTransaction}
+          onClick={handleFinishTransaction}
+        >
+          {getButtonText()}
+        </button>
       </div>
     </div>
   );
 }
 
 interface NewTransactionProps {
+  addStatement: (statement: Omit<Statement, 'date'> & { date?: Date }) => void;
 }

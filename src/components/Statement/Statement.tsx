@@ -6,42 +6,15 @@ import Edit from "../../images/Edit.svg";
 import StatementList from './StatementList/StatementList';
 
 import { getStatementByMonth } from '../../utils/statementUtils';
+import { Statement as StatementType } from '../../models/Statement';
 
 import styles from "./Statement.module.scss"
 
 
 export default function Statement(props: StatementProps) {
-  const {} = props;
+  const { statementsList, deleteStatement } = props;
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const statementsList = [
-    {
-      type: 'Transferência',
-      date: new Date('2024-01-09'),
-      moneyValue: -150,
-    },
-    {
-      type: 'Depósito',
-      date: new Date('2024-01-21'),
-      moneyValue: 1501,
-    },
-    {
-      type: 'Depósito',
-      date: new Date('2024-02-17'),
-      moneyValue: 1502,
-    },
-    {
-      type: 'Depósito',
-      date: new Date('2024-03-15'),
-      moneyValue: 1503,
-    },
-    {
-      type: 'Depósito',
-      date: new Date('2024-03-13'),
-      moneyValue: 1504,
-    },
-  ]
 
   return (
     <div id='statement' className={styles.statementContainer}>
@@ -70,6 +43,7 @@ export default function Statement(props: StatementProps) {
         <StatementList 
           statementsByMonth={getStatementByMonth(statementsList)}
           isEditing={isEditing}
+          deleteStatement={deleteStatement}
         />
       </div>
     </div>
@@ -77,4 +51,6 @@ export default function Statement(props: StatementProps) {
 }
 
 interface StatementProps {
+  statementsList: StatementType[];
+  deleteStatement: (statement: StatementType) => void;
 }

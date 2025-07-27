@@ -11,9 +11,14 @@ import styles from "./Header.module.scss"
 
 
 export default function Header(props: HeaderProps) {
-  const {items} = props;
+  const {items, onMenuClick} = props;
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuClick = (title: string) => {
+    onMenuClick(title);
+    setIsMenuOpen(false);
+  };
 
   const renderDesktopHeader = () => {
     return (
@@ -58,13 +63,13 @@ export default function Header(props: HeaderProps) {
             />
           </span>
           {items.map((item) => (
-            <a 
+            <button 
               key={item.title}
               className={cn({[styles.itemSelected]: item.selected}, styles.menuItem)} 
-              href={item.route}
+              onClick={() => handleMenuClick(item.title)}
             >
               {item.title}
-            </a>
+            </button>
           ))}
         </div>
       </div>
@@ -95,4 +100,5 @@ interface HeaderProps {
     route: string;
     selected: boolean;
   }[];
+  onMenuClick: (title: string) => void;
 }

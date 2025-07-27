@@ -29,7 +29,7 @@ export default function Select(props: SelectProps) {
     }
 
     setSelectValue(value);
-  }, [value]);
+  }, [value, placeholder]);
 
   const handleItemSelected = (e: SelectChangeEvent<string>) => {
     onChange(e.target.value);
@@ -68,5 +68,5 @@ interface SelectProps {
   onChange: (option: string) => void;
   options: string[];
   placeholder?: string;
-  style?: any;
+  style?: React.CSSProperties;
 }

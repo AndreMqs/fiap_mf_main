@@ -31,14 +31,17 @@
     line-height: 19.36px;
     text-align: center;
     color: #000000;
-    text-align: center;
-    border-bottom: 1px solid #000;
     text-decoration: none;
     padding: 16px 0px;
+    border: none;
+    border-bottom: 1px solid #000;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
     @media (max-width: 768px) {
-      width: 100%;
-      border: none;
+      width: auto;
+      border-bottom: 1px solid #000;
     }
     
     &:hover {

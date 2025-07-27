@@ -7,13 +7,18 @@ import { Statement } from "../../../models/Statement";
 import styles from "./StatementList.module.scss"
 
 
-export default function StatementList(props: SingleStatementProps) {
-  const {statementsByMonth, isEditing} = props;
+export default function StatementList(props: StatementListProps) {
+  const {statementsByMonth, isEditing, deleteStatement} = props;
 
   const renderSingleStatement = (month: string) => {
     return (
       statementsByMonth.get(month)?.map((statement, index) =>
-        <SingleStatement statement={statement} isEditing={isEditing} key={index}/>
+        <SingleStatement 
+          statement={statement} 
+          isEditing={isEditing} 
+          deleteStatement={deleteStatement}
+          key={index}
+        />
       )
     );
   }
@@ -32,7 +37,8 @@ export default function StatementList(props: SingleStatementProps) {
   );
 }
 
-interface SingleStatementProps {
+interface StatementListProps {
   statementsByMonth: Map<string, Statement[]>;
   isEditing: boolean;
+  deleteStatement: (statement: Statement) => void;
 }

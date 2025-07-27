@@ -4,18 +4,18 @@ import styles from "./Menu.module.scss"
 
 
 export default function Menu(props: MenuProps) {
-  const {items} = props;
+  const {items, onMenuClick} = props;
 
   return (
     <div id='menu' className={styles.menuContainer}>
       {items.map((item) => (
-        <a 
+        <button 
           key={item.title}
           className={cn({[styles.itemSelected]: item.selected}, styles.menuItem)} 
-          href={item.route}
+          onClick={() => onMenuClick(item.title)}
         >
           {item.title}
-        </a>
+        </button>
       ))}
     </div>
   );
@@ -26,5 +26,6 @@ interface MenuProps {
     title: string;
     route: string;
     selected: boolean;
-  }[]
+  }[];
+  onMenuClick: (title: string) => void;
 }
