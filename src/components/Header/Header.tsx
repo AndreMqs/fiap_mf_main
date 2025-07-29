@@ -87,12 +87,12 @@ export default function Header(props: HeaderProps) {
   }
 
   return (
-    <div id='header' className={styles.header}>
+    <header id='appHeader' className={styles.header}>
       <div className={styles.headerGrid}>
         {getHeader()}
       </div>
       {isMenuOpen && renderMobileMenu()}
-    </div>
+    </header>
   );
 }
 

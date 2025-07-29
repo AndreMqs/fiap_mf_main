@@ -20,8 +20,8 @@ export default function Menu(props: MenuProps) {
   };
 
   return (
-    <div 
-      id='menu' 
+    <nav 
+      id='mainNavigation' 
       className={styles.menuContainer}
       onClick={handleContainerClick}
     >
@@ -34,7 +34,7 @@ export default function Menu(props: MenuProps) {
           {item.title}
         </button>
       ))}
-    </div>
+    </nav>
   );
 }
 

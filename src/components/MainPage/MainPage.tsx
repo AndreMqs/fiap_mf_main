@@ -113,27 +113,26 @@ export default function MainPage() {
 
   const renderMiddleContent = useCallback(() => {
     return (
-      <div
-        id="middleContentContainer"
-        className={styles.middleContentContainer}
-      >
+      <section id="middleContent" className={styles.middleContentContainer}>
         <Summary username={user.name} money={user.money} />
         {mainContent}
-      </div>
+      </section>
     );
   }, [mainContent, user.name, user.money]);
 
   return (
-    <div id="mainContainer" className={styles.flexColumnCenterContainer}>
+    <>
       <Header items={menuItems} onMenuClick={handleMenuClick} />
-      <div id="mainContentContainer" className={styles.mainContentContainer}>
+      <main id="mainContent" className={styles.mainContentContainer}>
         <Menu items={menuItems} onMenuClick={handleMenuClick} />
         {renderMiddleContent()}
-        <Statement
-          statementsList={statementsList}
-          deleteStatement={deleteStatement}
-        />
-      </div>
-    </div>
+        <section id="statementSection">
+          <Statement
+            statementsList={statementsList}
+            deleteStatement={deleteStatement}
+          />
+        </section>
+      </main>
+    </>
   );
 }
