@@ -15,7 +15,9 @@ export default function Header(props: HeaderProps) {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleMenuClick = (title: string) => {
+  const handleMenuClick = (title: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     onMenuClick(title);
     setIsMenuOpen(false);
   };
@@ -66,7 +68,7 @@ export default function Header(props: HeaderProps) {
             <button 
               key={item.title}
               className={cn({[styles.itemSelected]: item.selected}, styles.menuItem)} 
-              onClick={() => handleMenuClick(item.title)}
+              onClick={(e) => handleMenuClick(item.title, e)}
             >
               {item.title}
             </button>

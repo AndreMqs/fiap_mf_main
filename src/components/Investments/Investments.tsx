@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
 import styles from './Investments.module.scss';
 import { useEffect, useState } from 'react';
 
@@ -12,6 +12,15 @@ const investmentsMock = {
     { name: 'Previdência Privada', value: 5000, color: '#E91E63' },
     { name: 'Bolsa de Valores', value: 3500, color: '#FF9800' },
   ]
+};
+
+// Wrapper para garantir compatibilidade com Module Federation
+const ChartWrapper = ({ children, width, height }: { children: React.ReactNode; width: number; height: number }) => {
+  return (
+    <div style={{ width: `${width}px`, height: `${height}px` }}>
+      {children}
+    </div>
+  );
 };
 
 export default function Investments() {
@@ -52,8 +61,8 @@ export default function Investments() {
         <div className={styles.chartContainer}>
           {isMobile ? (
             <div className={styles.mobileChartAndLegend}>
-              <ResponsiveContainer width="100%" height={180}>
-                <PieChart>
+              <ChartWrapper width={300} height={180}>
+                <PieChart width={300} height={180}>
                   <Pie
                     data={data}
                     dataKey="value"
@@ -69,7 +78,7 @@ export default function Investments() {
                     ))}
                   </Pie>
                 </PieChart>
-              </ResponsiveContainer>
+              </ChartWrapper>
               <div className={styles.mobileLegendWrapper}>
                 {data.map((item) => (
                   <div key={item.name} className={styles.mobileLegendItem}>
@@ -80,30 +89,32 @@ export default function Investments() {
               </div>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie
-                  data={data}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={70}
-                  innerRadius={40}
-                  label={false}
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Legend
-                  layout="vertical"
-                  align="right"
-                  verticalAlign="middle"
-                  wrapperStyle={{ color: '#fff' }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className={styles.desktopChartWrapper}>
+              <ChartWrapper width={400} height={220}>
+                <PieChart width={400} height={220}>
+                  <Pie
+                    data={data}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={70}
+                    innerRadius={40}
+                    label={false}
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Legend
+                    layout="vertical"
+                    align="right"
+                    verticalAlign="middle"
+                    wrapperStyle={{ color: '#fff' }}
+                  />
+                </PieChart>
+              </ChartWrapper>
+            </div>
           )}
         </div>
       </div>

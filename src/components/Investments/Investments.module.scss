@@ -1,14 +1,14 @@
 .investmentsContainer {
+  height: 478px;
   background-color: #CBCBCB;
   border-radius: 8px;
   padding: 32px;
   position: relative;
   margin-bottom: 24px;
   width: 100%;
-  min-height: 478px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   background-image: url('../../images/BackgroundDesktop.svg');
   background-position: bottom right;
   background-repeat: no-repeat;
@@ -130,6 +130,13 @@
     max-width: 100%;
     padding: 8px;
   }
+}
+
+.desktopChartWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .mobileChartAndLegend {
