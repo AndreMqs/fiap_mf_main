@@ -1,121 +1,115 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
+import CSVUpload from '../CSVUpload/CSVUpload';
+import { ModeSelector } from './ModeSelector';
+import { ManualTransactionForm } from './ManualTransactionForm';
+import { CSVTransactionPreview } from './CSVTransactionPreview';
+import { useTransactionForm } from '../../hooks/useTransactionForm';
+import { useValueValidation } from '../../utils/valueValidationUtils';
+import { createTransactionFromForm, createTransactionsFromCSV, getButtonText, isFormValid } from '../../utils/transactionUtils';
+import { NewTransactionProps } from '../../types/components';
+import { CSVTransaction } from '../../types/transaction';
+import styles from "./NewTransaction.module.scss";
 
-import Select from '../Select/Select';
-import { parseMoneyValue } from '../../utils/stringUtils';
-import { TRANSACTION_TYPES, TRANSACTION_CATEGORIES } from '../../utils/constants';
-import { useStore } from '../../store/useStore';
+export default function NewTransaction({ 
+  onTransactionAdded, 
+  className = '', 
+  disabled = false 
+}: NewTransactionProps) {
+  const {
+    formData,
+    isFocused,
+    inputMode,
+    csvTransactions,
+    valueError,
+    updateFormField,
+    setIsFocused,
+    setInputMode,
+    setCsvTransactions,
+    setValueError,
+    clearForm,
+    clearCSV,
+    addTransaction
+  } = useTransactionForm();
 
-import styles from "./NewTransaction.module.scss"
+  const { validateValue, filterInvalidCharacters } = useValueValidation();
 
-
-export default function NewTransaction() {
-  const { addTransaction } = useStore();
-  
-  const transactionOptions = TRANSACTION_TYPES;
-  const categoryOptions = TRANSACTION_CATEGORIES;
-  
-  const [selectedType, setSelectedType] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [inputValue, setInputValue] = useState('');
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
-  const [isFocused, setIsFocused] = useState(false);
+  const isMobile = useMemo(() => 
+    typeof window !== "undefined" && window.screen.width <= 425, 
+    []
+  );
 
   const handleFinishTransaction = () => {
-    if (selectedType && selectedCategory && inputValue && selectedDate) {
-      const value = parseFloat(inputValue.replace(/[^\d.-]/g, ''));
-      if (!Number.isNaN(value)) {
-        addTransaction({
-          type: selectedType === 'Receita' ? 'income' : 'expense',
-          value: value,
-          category: selectedCategory as 'Alimentação' | 'Moradia' | 'Saúde' | 'Estudo' | 'Transporte',
-          date: selectedDate,
-        });
-        setSelectedType('');
-        setSelectedCategory('');
-        setInputValue('');
-        setSelectedDate('');
-      }
+    if (inputMode === 'manual') {
+      const transaction = createTransactionFromForm(
+        formData.type,
+        formData.category,
+        formData.value,
+        formData.date
+      );
+      addTransaction(transaction);
+      clearForm();
+      onTransactionAdded?.();
+    } else if (inputMode === 'csv' && csvTransactions.length > 0) {
+      const transactions = createTransactionsFromCSV(csvTransactions);
+      transactions.forEach(addTransaction);
+      clearCSV();
+      setInputMode('manual');
+      onTransactionAdded?.();
     }
   };
 
-  const getButtonText = () => {
-    if (typeof window !== "undefined" && window.screen.width <= 425) {
-      return 'Concluir';
-    }
+  const handleCSVTransactionsLoaded = (transactions: CSVTransaction[]) => {
+    setCsvTransactions(transactions);
+  };
 
-    return 'Concluir transação';
-  }
+  const handleValueChange = (value: string) => {
+    const filteredValue = filterInvalidCharacters(value);
+    updateFormField('value', filteredValue);
+    const validation = validateValue(filteredValue);
+    setValueError(validation.error);
+  };
 
-  const getInputValue = () => {
-    if (isFocused) {
-      return inputValue;
-    }
 
-    const value = parseFloat(inputValue);
-    if (Number.isNaN(value)) {
-      return parseMoneyValue(0);
-    }
 
-    return parseMoneyValue(value);
-  }
+  const buttonText = getButtonText(isMobile, inputMode, csvTransactions.length);
+  const formIsValid = isFormValid(inputMode, formData, valueError, csvTransactions);
 
   return (
-    <div id='newTransaction' className={styles.transactionContainer}>
+    <div id='newTransaction' className={`${styles.transactionContainer} ${className}`}>
       <div className={styles.transactionContent}>
         <span className={styles.title}>Nova transação</span>
-        <span className={styles.selectContainer}>
-          <Select 
-            value={selectedType}
-            placeholder="Selecione o tipo de transação"
-            options={transactionOptions}
-            onChange={setSelectedType}
+        
+        <ModeSelector 
+          currentMode={inputMode}
+          onModeChange={setInputMode}
+        />
+
+        {inputMode === 'manual' ? (
+          <ManualTransactionForm
+            formData={formData}
+            isFocused={isFocused}
+            valueError={valueError}
+            onFieldChange={updateFormField}
+            onValueChange={handleValueChange}
+            onFocusChange={setIsFocused}
+            onClear={clearForm}
           />
-        </span>
-        <span className={styles.selectContainer}>
-          <Select 
-            value={selectedCategory}
-            placeholder="Selecione a categoria"
-            options={categoryOptions}
-            onChange={setSelectedCategory}
-          />
-        </span>
-        <span className={styles.inputContainer}>
-          <label 
-            htmlFor="date" 
-            id='date' 
-            className={styles.inputLabel}
-          >
-            Data
-          </label>
-          <input 
-            type="date" 
-            value={selectedDate}
-            onChange={e => setSelectedDate(e.target.value)}
-            className={styles.inputValue}
-          />
-        </span>
-        <span className={styles.inputContainer}>
-          <label 
-            htmlFor="value" 
-            id='value' 
-            className={styles.inputLabel}
-          >
-            Valor
-          </label>
-          <input 
-            type="text" 
-            value={getInputValue()}
-            onChange={e => setInputValue(e.target.value)}
-            className={styles.inputValue}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
-        </span>
+        ) : (
+          <>
+            <CSVUpload onTransactionsLoaded={handleCSVTransactionsLoaded} />
+            <CSVTransactionPreview 
+              transactions={csvTransactions}
+              onClear={clearCSV}
+            />
+          </>
+        )}
+
         <button 
           className={styles.finishTransaction}
           onClick={handleFinishTransaction}
+          disabled={!formIsValid || disabled}
         >
-          {getButtonText()}
+          {buttonText}
         </button>
       </div>
     </div>

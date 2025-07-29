@@ -20,6 +20,7 @@ export default defineConfig({
         '@emotion/styled',
         '@emotion/react',
         'lodash',
+        'recharts',
       ]
     }),
   ],
