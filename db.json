@@ -1,0 +1,58 @@
+{
+  "user": {
+    "id": 1,
+    "name": "Joana da Silva Oliveira",
+    "balance": 2500
+  },
+  "transactions": [
+    {
+      "id": "1",
+      "type": "expense",
+      "value": 150,
+      "category": "Transporte",
+      "date": "2024-01-09"
+    },
+    {
+      "id": "2",
+      "type": "income",
+      "value": 1501,
+      "category": "Alimentação",
+      "date": "2024-01-21"
+    },
+    {
+      "id": "3",
+      "type": "income",
+      "value": 1502,
+      "category": "Moradia",
+      "date": "2024-02-17"
+    },
+    {
+      "id": "4",
+      "type": "income",
+      "value": 1503,
+      "category": "Saúde",
+      "date": "2024-03-15"
+    },
+    {
+      "id": "5",
+      "type": "income",
+      "value": 1504,
+      "category": "Estudo",
+      "date": "2024-03-13"
+    },
+    {
+      "id": 1753792516418,
+      "type": "income",
+      "value": 10,
+      "category": "Estudo",
+      "date": "2025-07-29"
+    },
+    {
+      "id": 1753799671488,
+      "type": "expense",
+      "value": 50,
+      "category": "Transporte",
+      "date": "2025-07-29"
+    }
+  ]
+}

@@ -6,3 +6,16 @@ services:
     ports:
       - "3002:80"
     restart: always
+    depends_on:
+      - json-server
+
+  json-server:
+    image: node:22.15.0
+    container_name: json-server
+    working_dir: /app
+    volumes:
+      - ./db.json:/app/db.json
+    ports:
+      - "3000:3000"
+    command: npx json-server --watch db.json --port 3000 --host 0.0.0.0
+    restart: always

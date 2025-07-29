@@ -1,18 +1,19 @@
 import { useState } from 'react';
-
 import IconButton from '@mui/material/IconButton';
+
+
 import Delete from "../../images/Delete.svg";
 import Edit from "../../images/Edit.svg";
 import StatementList from './StatementList/StatementList';
 
 import { getStatementByMonth } from '../../utils/statementUtils';
-import { Statement as StatementType } from '../../models/Statement';
+import { StatementProps } from '../../types/statement';
 
 import styles from "./Statement.module.scss"
 
 
 export default function Statement(props: StatementProps) {
-  const { statementsList, deleteStatement } = props;
+  const { transactions, deleteTransaction } = props;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -41,16 +42,12 @@ export default function Statement(props: StatementProps) {
       </div>
       <div className={styles.statementsListContainer}>
         <StatementList 
-          statementsByMonth={getStatementByMonth(statementsList)}
+          statementsByMonth={getStatementByMonth(transactions)}
           isEditing={isEditing}
-          deleteStatement={deleteStatement}
+          deleteTransaction={deleteTransaction}
         />
       </div>
     </div>
   );
 }
 
-interface StatementProps {
-  statementsList: StatementType[];
-  deleteStatement: (statement: StatementType) => void;
-}

@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from "../../images/Avatar.svg";
 import Fechar from "../../images/Fechar.svg";
 
+import { HeaderProps } from "../../types/header";
 import styles from "./Header.module.scss"
 
 
@@ -96,11 +97,3 @@ export default function Header(props: HeaderProps) {
   );
 }
 
-interface HeaderProps {
-  items: {
-    title: string;
-    route: string;
-    selected: boolean;
-  }[];
-  onMenuClick: (title: string) => void;
-}

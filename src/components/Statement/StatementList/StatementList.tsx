@@ -2,21 +2,21 @@ import { capitalize } from "lodash";
 
 import SingleStatement from "../SingleStatement/SingleStatement";
 
-import { Statement } from "../../../models/Statement";
+import { StatementListProps } from "../../../types/statement";
 
 import styles from "./StatementList.module.scss"
 
 
 export default function StatementList(props: StatementListProps) {
-  const {statementsByMonth, isEditing, deleteStatement} = props;
+  const {statementsByMonth, isEditing, deleteTransaction} = props;
 
   const renderSingleStatement = (month: string) => {
     return (
       statementsByMonth.get(month)?.map((statement, index) =>
         <SingleStatement 
-          statement={statement} 
+          transaction={statement} 
           isEditing={isEditing} 
-          deleteStatement={deleteStatement}
+          deleteTransaction={deleteTransaction}
           key={index}
         />
       )
@@ -37,8 +37,3 @@ export default function StatementList(props: StatementListProps) {
   );
 }
 
-interface StatementListProps {
-  statementsByMonth: Map<string, Statement[]>;
-  isEditing: boolean;
-  deleteStatement: (statement: Statement) => void;
-}

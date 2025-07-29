@@ -1,36 +1,39 @@
 import { useState } from 'react';
 
 import Select from '../Select/Select';
-
 import { parseMoneyValue } from '../../utils/stringUtils';
-import { Statement } from '../../models/Statement';
+import { TRANSACTION_TYPES, TRANSACTION_CATEGORIES } from '../../utils/constants';
+import { useStore } from '../../store/useStore';
 
 import styles from "./NewTransaction.module.scss"
 
 
-export default function NewTransaction(props: NewTransactionProps) {
-  const { addStatement } = props;
+export default function NewTransaction() {
+  const { addTransaction } = useStore();
   
-  const transactionOptions = [
-    'Câmbio de Moeda',
-    'DOC/TED',
-    'Empréstimo e Financiamento',
-  ];
+  const transactionOptions = TRANSACTION_TYPES;
+  const categoryOptions = TRANSACTION_CATEGORIES;
   
-  const [selectedValue, setSelectValue] = useState<string>('');
+  const [selectedType, setSelectedType] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [inputValue, setInputValue] = useState('');
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFinishTransaction = () => {
-    if (selectedValue && inputValue) {
+    if (selectedType && selectedCategory && inputValue && selectedDate) {
       const value = parseFloat(inputValue.replace(/[^\d.-]/g, ''));
       if (!Number.isNaN(value)) {
-        addStatement({
-          type: selectedValue,
-          moneyValue: value,
+        addTransaction({
+          type: selectedType === 'Receita' ? 'income' : 'expense',
+          value: value,
+          category: selectedCategory as 'Alimentação' | 'Moradia' | 'Saúde' | 'Estudo' | 'Transporte',
+          date: selectedDate,
         });
-        setSelectValue('');
+        setSelectedType('');
+        setSelectedCategory('');
         setInputValue('');
+        setSelectedDate('');
       }
     }
   };
@@ -62,10 +65,33 @@ export default function NewTransaction(props: NewTransactionProps) {
         <span className={styles.title}>Nova transação</span>
         <span className={styles.selectContainer}>
           <Select 
-            value={selectedValue}
+            value={selectedType}
             placeholder="Selecione o tipo de transação"
             options={transactionOptions}
-            onChange={setSelectValue}
+            onChange={setSelectedType}
+          />
+        </span>
+        <span className={styles.selectContainer}>
+          <Select 
+            value={selectedCategory}
+            placeholder="Selecione a categoria"
+            options={categoryOptions}
+            onChange={setSelectedCategory}
+          />
+        </span>
+        <span className={styles.inputContainer}>
+          <label 
+            htmlFor="date" 
+            id='date' 
+            className={styles.inputLabel}
+          >
+            Data
+          </label>
+          <input 
+            type="date" 
+            value={selectedDate}
+            onChange={e => setSelectedDate(e.target.value)}
+            className={styles.inputValue}
           />
         </span>
         <span className={styles.inputContainer}>
@@ -96,6 +122,3 @@ export default function NewTransaction(props: NewTransactionProps) {
   );
 }
 
-interface NewTransactionProps {
-  addStatement: (statement: Omit<Statement, 'date'> & { date?: Date }) => void;
-}

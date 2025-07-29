@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { useEffect, useState } from 'react';
 
-import { INVESTMENTS_MOCK } from '../../utils/constants';
+import { useStore } from '../../store/useStore';
 
-import styles from './Investments.module.scss';
+import styles from './CategoryChart.module.scss';
 
 const ChartWrapper = ({ children, width, height }: { children: React.ReactNode; width: number; height: number }) => {
   return (
@@ -13,11 +13,9 @@ const ChartWrapper = ({ children, width, height }: { children: React.ReactNode; 
   );
 };
 
-export default function Investments() {
-  const rendaFixa = INVESTMENTS_MOCK.rendaFixa;
-  const rendaVariavel = INVESTMENTS_MOCK.rendaVariavel;
-  const total = INVESTMENTS_MOCK.total;
-  const data = INVESTMENTS_MOCK.chartData;
+export default function CategoryChart() {
+  const { getCategoryData } = useStore();
+  const data = getCategoryData();
 
   const [isMobile, setIsMobile] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
@@ -32,22 +30,21 @@ export default function Investments() {
 
   if (!hasMounted) return null;
 
-  return (
-    <div className={styles.investmentsContainer}>
-      <div className={styles.investmentsContent}>
-        <span className={styles.title}>Investimentos</span>
-        <span className={styles.total}>Total: R$ {total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
-        <div className={styles.yields}>
-          <div className={styles.yieldBox}>
-            <span className={styles.yieldTitle}>Renda Fixa</span>
-            <span className={styles.yieldValue}>R$ {rendaFixa.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
-          </div>
-          <div className={styles.yieldBox}>
-            <span className={styles.yieldTitle}>Renda variável</span>
-            <span className={styles.yieldValue}>R$ {rendaVariavel.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
-          </div>
+  if (!data || data.length === 0) {
+    return (
+      <div className={styles.categoryChartContainer}>
+        <div className={styles.categoryChartContent}>
+          <span className={styles.title}>Gastos por Categoria</span>
+          <div>Nenhum dado disponível</div>
         </div>
-        <span className={styles.statistics}>Estatísticas</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.categoryChartContainer}>
+      <div className={styles.categoryChartContent}>
+        <span className={styles.title}>Gastos por Categoria</span>
         <div className={styles.chartContainer}>
           {isMobile ? (
             <div className={styles.mobileChartAndLegend}>

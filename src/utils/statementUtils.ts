@@ -1,11 +1,11 @@
-import { Statement } from "../models/Statement";
+import { Transaction } from "../types";
 
-export function getStatementByMonth(statementsList: Statement[]) {
-  const monthMap = new Map<string, Statement[]>();
-  statementsList.forEach((statement) => {
-    const month = statement.date.toLocaleString('default', { month: 'long' });
+export function getStatementByMonth(transactions: Transaction[]) {
+  const monthMap = new Map<string, Transaction[]>();
+  transactions.forEach((transaction) => {
+    const month = new Date(transaction.date).toLocaleString('default', { month: 'long' });
     const prevItem = monthMap.get(month);
-    monthMap.set(month, [...(prevItem ?? []), statement]);
+    monthMap.set(month, [...(prevItem ?? []), transaction]);
   });
   return monthMap;
 }

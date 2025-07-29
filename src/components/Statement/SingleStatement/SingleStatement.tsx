@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 
-import { parseMoneyValue } from "../../../utils/stringUtils";
 import Delete from "../../../images/Delete.svg";
 
-import { Statement } from "../../../models/Statement";
+import { parseMoneyValue } from "../../../utils/stringUtils";import { SingleStatementProps } from "../../../types/statement";
 
 import styles from "./SingleStatement.module.scss"
 
 
 export default function SingleStatement(props: SingleStatementProps) {
-  const {statement, isEditing, deleteStatement} = props;
-  const {type, date, moneyValue} = statement;
-  const [inputValue, setInputValue] = useState<string>(moneyValue.toString());
+  const {transaction, isEditing, deleteTransaction} = props;
+  const {type, date, value, category} = transaction;
+  const [inputValue, setInputValue] = useState<string>(value.toString());
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
-    setInputValue(moneyValue.toString());
-  }, [moneyValue]);
+    setInputValue(value.toString());
+  }, [value]);
 
   const handleDelete = () => {
-    deleteStatement(statement);
+    deleteTransaction(transaction.id);
   };
 
   const getInputValue = () => {
@@ -41,8 +40,9 @@ export default function SingleStatement(props: SingleStatementProps) {
       className={styles.singleStatementContainer}
     >
       <span className={styles.typeAndDateContainer}>
-        <span className={styles.type}>{type}</span>
-        <span className={styles.date}>{date.toLocaleDateString()}</span>
+        <span className={styles.type}>{type === 'income' ? 'Receita' : 'Despesa'}</span>
+        <span className={styles.date}>{new Date(date).toLocaleDateString()}</span>
+        <span className={styles.category}>{category}</span>
       </span>
 
       <div className={styles.valueAndDeleteContainer}>
@@ -76,8 +76,3 @@ export default function SingleStatement(props: SingleStatementProps) {
   );
 }
 
-interface SingleStatementProps {
-  statement: Statement;
-  isEditing: boolean;
-  deleteStatement: (statement: Statement) => void;
-}
