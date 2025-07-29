@@ -80,13 +80,6 @@ export const ManualTransactionForm = ({
           <span className={styles.errorText}>{valueError}</span>
         )}
       </span>
-      <button 
-        className={styles.clearButton}
-        onClick={onClear}
-        disabled={!formData.type && !formData.category && !formData.value}
-      >
-        Limpar
-      </button>
     </>
   );
 }; 

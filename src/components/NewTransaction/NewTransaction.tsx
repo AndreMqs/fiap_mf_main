@@ -82,7 +82,7 @@ export default function NewTransaction({
         <ModeSelector 
           currentMode={inputMode}
           onModeChange={setInputMode}
-        />
+          />
 
         {inputMode === 'manual' ? (
           <ManualTransactionForm
@@ -100,17 +100,36 @@ export default function NewTransaction({
             <CSVTransactionPreview 
               transactions={csvTransactions}
               onClear={clearCSV}
-            />
+          />
           </>
         )}
 
+        <div className={styles.buttonContainer}>
+          {inputMode === 'manual' && (
+            <button 
+              className={styles.clearButton}
+              onClick={clearForm}
+              disabled={!formData.type && !formData.category && !formData.value}
+            >
+              Limpar
+            </button>
+          )}
+          {inputMode === 'csv' && csvTransactions.length > 0 && (
+            <button 
+              className={styles.clearButton}
+              onClick={clearCSV}
+            >
+              Limpar CSV
+            </button>
+          )}
         <button 
           className={styles.finishTransaction}
           onClick={handleFinishTransaction}
-          disabled={!formIsValid || disabled}
+            disabled={!formIsValid || disabled}
         >
-          {buttonText}
+            {buttonText}
         </button>
+        </div>
       </div>
     </div>
   );

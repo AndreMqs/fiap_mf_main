@@ -24,12 +24,6 @@ export const CSVTransactionPreview = ({ transactions, onClear }: CSVTransactionP
           </div>
         ))}
       </div>
-      <button 
-        className={styles.clearButton}
-        onClick={onClear}
-      >
-        Limpar CSV
-      </button>
     </>
   );
 }; 
