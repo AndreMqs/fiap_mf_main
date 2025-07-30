@@ -13,7 +13,6 @@ export function filterTransactions(transactions: Transaction[], filters: FilterC
     }
 
     if (filters.dateFrom || filters.dateTo) {
-      // Usar comparação de strings para evitar problemas de fuso horário
       const transactionDateStr = transaction.date;
       
       if (filters.dateFrom) {
