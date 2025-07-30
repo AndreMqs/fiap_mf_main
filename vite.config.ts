@@ -21,6 +21,10 @@ export default defineConfig({
         '@emotion/react',
         'lodash',
         'recharts',
+        'json-server',
+        'concurrently',
+        'classnames',
+        'zustand',
       ]
     }),
   ],
