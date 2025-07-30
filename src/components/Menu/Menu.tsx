@@ -4,20 +4,35 @@ import styles from "./Menu.module.scss"
 
 
 export default function Menu(props: MenuProps) {
-  const {items} = props;
+  const {items, onMenuClick} = props;
+
+  const handleMenuClick = (title: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onMenuClick(title);
+  };
+
+  const handleContainerClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
   return (
-    <div id='menu' className={styles.menuContainer}>
+    <nav 
+      id='mainNavigation' 
+      className={styles.menuContainer}
+      onClick={handleContainerClick}
+    >
       {items.map((item) => (
-        <a 
+        <button 
           key={item.title}
           className={cn({[styles.itemSelected]: item.selected}, styles.menuItem)} 
-          href={item.route}
+          onClick={(e) => handleMenuClick(item.title, e)}
         >
           {item.title}
-        </a>
+        </button>
       ))}
-    </div>
+    </nav>
   );
 }
 
@@ -26,5 +41,6 @@ interface MenuProps {
     title: string;
     route: string;
     selected: boolean;
-  }[]
+  }[];
+  onMenuClick: (title: string) => void;
 }

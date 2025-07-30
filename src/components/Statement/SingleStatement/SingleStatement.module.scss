@@ -1,16 +1,21 @@
 .singleStatementContainer {
   margin-bottom: 24px;
   display: flex;
-  flex-direction: column;
-  height: 38px;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  min-height: 60px;
+  border-bottom: 1px solid #47A138;
+  padding-bottom: 8px;
   
-  .typeAndDateContainer {
+  .leftColumn {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
   
-    & .type {
+    .type {
       font-size: 16px;
       font-weight: 400;
       line-height: 19.36px;
@@ -18,7 +23,7 @@
       color: #000000;
     }
     
-    & .date {
+    .date {
       font-size: 13px;
       font-weight: 400;
       line-height: 15.73px;
@@ -27,18 +32,59 @@
     }
   }
 
-  .inputMoney {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 19.36px;
-    text-align: left;
-    border: none;
-    border-bottom: 1px solid #47A138;
-    background-color: transparent;
-    padding: 8px 0px;
+  .rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    flex: 1;
 
-    &:focus-visible {
-      outline: none;
+    .categoryChip {
+      background-color: #E3F2FD;
+      color: #1976D2;
+      font-size: 12px;
+      font-weight: 500;
+      height: 24px;
+      
+      :global(.MuiChip-label) {
+        padding: 0 8px;
+      }
+    }
+
+    .inputMoney {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 19.36px;
+      text-align: right;
+      border: none;
+      background-color: transparent;
+      padding: 8px 0px;
+      width: 100%;
+      max-width: 120px;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
+    .expenseValue {
+      color: #D32F2F;
+    }
+  }
+
+  .deleteButton {
+    position: absolute;
+    top: 0;
+    right: -30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
 }

@@ -7,13 +7,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from "../../images/Avatar.svg";
 import Fechar from "../../images/Fechar.svg";
 
+import { HeaderProps } from "../../types/header";
 import styles from "./Header.module.scss"
 
 
 export default function Header(props: HeaderProps) {
-  const {items} = props;
+  const {items, onMenuClick} = props;
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuClick = (title: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onMenuClick(title);
+    setIsMenuOpen(false);
+  };
 
   const renderDesktopHeader = () => {
     return (
@@ -58,13 +66,13 @@ export default function Header(props: HeaderProps) {
             />
           </span>
           {items.map((item) => (
-            <a 
+            <button 
               key={item.title}
               className={cn({[styles.itemSelected]: item.selected}, styles.menuItem)} 
-              href={item.route}
+              onClick={(e) => handleMenuClick(item.title, e)}
             >
               {item.title}
-            </a>
+            </button>
           ))}
         </div>
       </div>
@@ -80,19 +88,12 @@ export default function Header(props: HeaderProps) {
   }
 
   return (
-    <div id='header' className={styles.header}>
+    <header id='appHeader' className={styles.header}>
       <div className={styles.headerGrid}>
         {getHeader()}
       </div>
       {isMenuOpen && renderMobileMenu()}
-    </div>
+    </header>
   );
 }
 
-interface HeaderProps {
-  items: {
-    title: string;
-    route: string;
-    selected: boolean;
-  }[];
-}

@@ -1,9 +1,10 @@
-import './App.module.scss';
+import styles from './App.module.scss';
 import MainPage from './components/MainPage/MainPage';
 
 const App = () => {
+
   return (
-    <div className="content">
+    <div className={styles.global}>
       <MainPage />
     </div>
   );

@@ -1,0 +1,108 @@
+.categoryChartContainer {
+  background-color: #CBCBCB;
+  border-radius: 8px;
+  padding: 32px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-image: url('../../images/BackgroundDesktop.svg');
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-origin: content-box, padding-box;
+
+  @media (max-width: 768px) {
+    padding: 32px 24px;
+    min-height: 350px;
+    background-image: url('../../images/BackgroundTablet.svg');
+  }
+  @media (max-width: 425px) {
+    padding: 24px 8px 350px 8px;
+    min-height: 100px;
+    background-position: 30% 95%;
+    background-image: url('../../images/BackgroundMobile.svg');
+  }
+}
+
+.categoryChartContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  @media (max-width: 425px) {
+    align-items: center;
+  }
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #000;
+  line-height: 30px;
+  margin-bottom: 8px;
+}
+
+.chartContainer {
+  background: #004D61;
+  border-radius: 8px;
+  padding: 24px 32px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 425px) {
+    max-width: 100%;
+    padding: 8px;
+  }
+}
+
+.desktopChartWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.mobileChartAndLegend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 16px;
+}
+
+.mobileLegendWrapper {
+  width: 100%;
+  margin-top: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mobileLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.mobileLegendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mobileLegendText {
+  color: #fff;
+  font-size: 16px;
+} 

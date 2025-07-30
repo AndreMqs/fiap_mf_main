@@ -1,64 +1,93 @@
-import Header from '../Header/Header';
-import Menu from '../Menu/Menu';
-import Summary from '../Summary/Summary';
-import NewTransaction from '../NewTransaction/NewTransaction';
-import Statement from '../Statement/Statement';
+import { useState, useCallback, useMemo, useEffect } from "react";
 
-import styles from "./MainPage.module.scss"
+import { useStore } from "../../store/useStore";
+import Header from "../Header/Header";
+import Menu from "../Menu/Menu";
+import Summary from "../Summary/Summary";
+import NewTransaction from "../NewTransaction/NewTransaction";
+import Statement from "../Statement/Statement";
+import Investments from "../Investments/Investments";
+import OtherServices from "../OtherServices/OtherServices";
+import CategoryChart from "../CategoryChart/CategoryChart";
 
+import styles from "./MainPage.module.scss";
 
-export default function MainPage(props: MainPageProps) {
-  const user = {
-    name: 'Joana',
-    money: 2500,
-  };
+export default function MainPage() {
+  const { user, transactions, fetchUser, fetchTransactions, deleteTransaction } = useStore();
+  const [selectedMenu, setSelectedMenu] = useState("Início");
 
-  const menuItems = [
-    {
-      title: 'Início',
-      route: '/inicio',
-      selected: true,
-    },
-    {
-      title: 'Transferências',
-      route: '/inicio',
-      selected: false,
-    },
-    {
-      title: 'Investimentos',
-      route: '/inicio',
-      selected: false,
-    },
-    {
-      title: 'Outros serviços',
-      route: '/home',
-      selected: false,
-    },
-  ];
+  useEffect(() => {
+    fetchUser();
+    fetchTransactions();
+  }, [fetchUser, fetchTransactions]);
 
-  const renderMiddleContent = () => {
+  const handleMenuClick = useCallback((title: string) => {
+    setSelectedMenu(title);
+  }, []);
+
+  const menuItems = useMemo(
+    () => [
+      {
+        title: "Início",
+        route: "/inicio",
+        selected: selectedMenu === "Início",
+      },
+      {
+        title: "Transferências",
+        route: "/inicio",
+        selected: selectedMenu === "Transferências",
+      },
+      {
+        title: "Investimentos",
+        route: "/inicio",
+        selected: selectedMenu === "Investimentos",
+      },
+      {
+        title: "Outros serviços",
+        route: "/home",
+        selected: selectedMenu === "Outros serviços",
+      },
+    ],
+    [selectedMenu]
+  );
+
+  const mainContent = useMemo(() => {
+    switch (selectedMenu) {
+      case "Transferências":
+        return <NewTransaction />;
+      case "Investimentos":
+        return <Investments />;
+      case "Outros serviços":
+        return <OtherServices />;
+      default:
+        return <CategoryChart />;
+    }
+  }, [selectedMenu]);
+
+  const renderMiddleContent = useCallback(() => {
+    if (!user) return <div>Carregando usuário...</div>;
+    
     return (
-      <div id='middleContentContainer' className={styles.middleContentContainer}>
-        <Summary
-          username={user.name}
-          money={user.money}
-        />
-        <NewTransaction/>
-      </div>
+      <section id="middleContent" className={styles.middleContentContainer}>
+        <Summary username={user.name} money={user.balance} />
+        {mainContent}
+      </section>
     );
-  };
+  }, [mainContent, user]);
 
   return (
-    <div id='mainContainer' className={styles.flexColumnCenterContainer}>
-      <Header items={menuItems}/>
-      <div id='mainContentContainer' className={styles.mainContentContainer}>
-        <Menu items={menuItems}/>
+    <>
+      <Header items={menuItems} onMenuClick={handleMenuClick} />
+      <main id="mainContent" className={styles.mainContentContainer}>
+        <Menu items={menuItems} onMenuClick={handleMenuClick} />
         {renderMiddleContent()}
-        <Statement />
-      </div>
-    </div>
+        <section id="statementSection">
+          <Statement
+            transactions={transactions}
+            deleteTransaction={deleteTransaction}
+          />
+        </section>
+      </main>
+    </>
   );
-}
-
-interface MainPageProps {
 }

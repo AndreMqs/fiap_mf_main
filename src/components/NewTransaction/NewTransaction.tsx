@@ -1,79 +1,137 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
+import CSVUpload from '../CSVUpload/CSVUpload';
+import { ModeSelector } from './ModeSelector';
+import { ManualTransactionForm } from './ManualTransactionForm';
+import { CSVTransactionPreview } from './CSVTransactionPreview';
+import { useTransactionForm } from '../../hooks/useTransactionForm';
+import { useValueValidation } from '../../utils/valueValidationUtils';
+import { createTransactionFromForm, createTransactionsFromCSV, getButtonText, isFormValid } from '../../utils/transactionUtils';
+import { NewTransactionProps } from '../../types/components';
+import { CSVTransaction } from '../../types/transaction';
+import styles from "./NewTransaction.module.scss";
 
-import Select from '../Select/Select';
+export default function NewTransaction({ 
+  onTransactionAdded, 
+  className = '', 
+  disabled = false 
+}: NewTransactionProps) {
+  const {
+    formData,
+    isFocused,
+    inputMode,
+    csvTransactions,
+    valueError,
+    updateFormField,
+    setIsFocused,
+    setInputMode,
+    setCsvTransactions,
+    setValueError,
+    clearForm,
+    clearCSV,
+    addTransaction
+  } = useTransactionForm();
 
-import { parseMoneyValue } from '../../utils/stringUtils';
+  const { validateValue, filterInvalidCharacters } = useValueValidation();
 
-import styles from "./NewTransaction.module.scss"
+  const isMobile = useMemo(() => 
+    typeof window !== "undefined" && window.screen.width <= 425, 
+    []
+  );
 
-
-export default function NewTransaction(props: NewTransactionProps) {
-  const transactionOptions = [
-    'Câmbio de Moeda',
-    'DOC/TED',
-    'Empréstimo e Financiamento',
-  ];
-  
-  const {} = props;
-  const [selectedValue, setSelectValue] = useState<string>('');
-  const [inputValue, setInputValue] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-
-  const getButtonText = () => {
-    if (typeof window !== "undefined" && window.screen.width <= 425) {
-      return 'Concluir';
+  const handleFinishTransaction = () => {
+    if (inputMode === 'manual') {
+      const transaction = createTransactionFromForm(
+        formData.type,
+        formData.category,
+        formData.value,
+        formData.date
+      );
+      addTransaction(transaction);
+      clearForm();
+      onTransactionAdded?.();
+    } else if (inputMode === 'csv' && csvTransactions.length > 0) {
+      const transactions = createTransactionsFromCSV(csvTransactions);
+      transactions.forEach(addTransaction);
+      clearCSV();
+      setInputMode('manual');
+      onTransactionAdded?.();
     }
+  };
 
-    return 'Concluir transação';
-  }
+  const handleCSVTransactionsLoaded = (transactions: CSVTransaction[]) => {
+    setCsvTransactions(transactions);
+  };
 
-  const getInputValue = () => {
-    if (isFocused) {
-      return inputValue;
-    }
+  const handleValueChange = (value: string) => {
+    const filteredValue = filterInvalidCharacters(value);
+    updateFormField('value', filteredValue);
+    const validation = validateValue(filteredValue);
+    setValueError(validation.error);
+  };
 
-    const value = parseFloat(inputValue);
-    if (Number.isNaN(value)) {
-      return parseMoneyValue(0);
-    }
 
-    return parseMoneyValue(value);
-  }
+
+  const buttonText = getButtonText(isMobile, inputMode, csvTransactions.length);
+  const formIsValid = isFormValid(inputMode, formData, valueError, csvTransactions);
 
   return (
-    <div id='newTransaction' className={styles.transactionContainer}>
+    <div id='newTransaction' className={`${styles.transactionContainer} ${className}`}>
       <div className={styles.transactionContent}>
         <span className={styles.title}>Nova transação</span>
-        <span className={styles.selectContainer}>
-          <Select 
-            value={selectedValue}
-            placeholder="Selecione o tipo de transação"
-            options={transactionOptions}
-            onChange={setSelectValue}
+        
+        <ModeSelector 
+          currentMode={inputMode}
+          onModeChange={setInputMode}
           />
-        </span>
-        <span className={styles.inputContainer}>
-          <label 
-            htmlFor="value" 
-            id='value' 
-            className={styles.inputLabel}
-          >
-            Valor
-          </label>
-          <input 
-            type="text" 
-            value={getInputValue()}
-            onChange={e => setInputValue(e.target.value)}
-            className={styles.inputValue}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+
+        {inputMode === 'manual' ? (
+          <ManualTransactionForm
+            formData={formData}
+            isFocused={isFocused}
+            valueError={valueError}
+            onFieldChange={updateFormField}
+            onValueChange={handleValueChange}
+            onFocusChange={setIsFocused}
+            onClear={clearForm}
           />
-        </span>
-        <button className={styles.finishTransaction}>{getButtonText()}</button>
+        ) : (
+          <>
+            <CSVUpload onTransactionsLoaded={handleCSVTransactionsLoaded} />
+            <CSVTransactionPreview 
+              transactions={csvTransactions}
+              onClear={clearCSV}
+          />
+          </>
+        )}
+
+        <div className={styles.buttonContainer}>
+          {inputMode === 'manual' && (
+            <button 
+              className={styles.clearButton}
+              onClick={clearForm}
+              disabled={!formData.type && !formData.category && !formData.value}
+            >
+              Limpar
+            </button>
+          )}
+          {inputMode === 'csv' && csvTransactions.length > 0 && (
+            <button 
+              className={styles.clearButton}
+              onClick={clearCSV}
+            >
+              Limpar CSV
+            </button>
+          )}
+        <button 
+          className={styles.finishTransaction}
+          onClick={handleFinishTransaction}
+            disabled={!formIsValid || disabled}
+        >
+            {buttonText}
+        </button>
+        </div>
       </div>
     </div>
   );
 }
 
-interface NewTransactionProps {
-}

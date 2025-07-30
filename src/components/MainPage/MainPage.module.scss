@@ -1,9 +1,3 @@
-.header {
-  height: 96px;
-  width: 100%;  
-  margin-bottom: 24px;
-}
-
 .flexRowCenterContainer {
   display: flex;
   flex-direction: row;
@@ -40,27 +34,24 @@
 
 .menuContainer {
   width: 180px;
-  height: 100%;
+  height: 100vh;
 }
 
 .middleContentContainer {
-  width: 690px;
-  margin: 0px 24px 34px 24px;
-
-  & .welcomeContainer {
-    height: 402px;
-  }
-
-  & .transactionContainer {
-    height: 478px;
-  }
+  width: 100%;
+  margin: 0px 24px;;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   @media (max-width: 768px) {
     width: 100%;
     margin: 0px;
+    gap: 16px;
   }
 }
 
 .statementContainer {
   width: 282px;
+  height: 100%;
 }
