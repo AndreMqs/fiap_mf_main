@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
-import Delete from "../../../images/Delete.svg";
+import { Chip } from '@mui/material';
 
-import { parseMoneyValue } from "../../../utils/stringUtils";import { SingleStatementProps } from "../../../types/statement";
+import Delete from "../../../images/Delete.svg";
+import { parseMoneyValue } from "../../../utils/stringUtils";
+import { SingleStatementProps } from "../../../types/statement";
 
 import styles from "./SingleStatement.module.scss"
 
@@ -31,7 +33,14 @@ export default function SingleStatement(props: SingleStatementProps) {
       return parseMoneyValue(0);
     }
 
-    return parseMoneyValue(value);
+    const formattedValue = parseMoneyValue(value);
+    return type === 'expense' ? `- ${formattedValue}` : formattedValue;
+  }
+
+  const formatDate = (dateString: string) => {
+  
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
   }
 
   return (
@@ -39,15 +48,19 @@ export default function SingleStatement(props: SingleStatementProps) {
       id='singleStatement' 
       className={styles.singleStatementContainer}
     >
-      <span className={styles.typeAndDateContainer}>
+      <div className={styles.leftColumn}>
         <span className={styles.type}>{type === 'income' ? 'Receita' : 'Despesa'}</span>
-        <span className={styles.date}>{new Date(date).toLocaleDateString()}</span>
-        <span className={styles.category}>{category}</span>
-      </span>
+        <span className={styles.date}>{formatDate(date)}</span>
+      </div>
 
-      <div className={styles.valueAndDeleteContainer}>
+      <div className={styles.rightColumn}>
+        <Chip 
+          label={category} 
+          className={styles.categoryChip}
+          size="small"
+        />
         <input 
-          className={styles.inputMoney}
+          className={`${styles.inputMoney} ${type === 'expense' ? styles.expenseValue : ''}`}
           type="text" 
           id="money" 
           name="money" 
@@ -57,21 +70,22 @@ export default function SingleStatement(props: SingleStatementProps) {
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
         />
-        {isEditing && (
-          <button 
-            className={styles.deleteButton}
-            onClick={handleDelete}
-            aria-label="Deletar transação"
-          >
-            <img 
-              src={Delete} 
-              alt="Deletar" 
-              height={16} 
-              width={16}
-            />
-          </button>
-        )}
       </div>
+
+      {isEditing && (
+        <button 
+          className={styles.deleteButton}
+          onClick={handleDelete}
+          aria-label="Deletar transação"
+        >
+          <img 
+            src={Delete} 
+            alt="Deletar" 
+            height={16} 
+            width={16}
+          />
+        </button>
+      )}
     </div>
   );
 }

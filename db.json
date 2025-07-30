@@ -6,13 +6,6 @@
   },
   "transactions": [
     {
-      "id": "1",
-      "type": "expense",
-      "value": 150,
-      "category": "Transporte",
-      "date": "2024-01-09"
-    },
-    {
       "id": "2",
       "type": "income",
       "value": 1501,
@@ -62,18 +55,60 @@
       "date": "2024-01-09"
     },
     {
-      "id": 1753820197722,
+      "id": "1753820197722",
       "type": "income",
       "value": 100.7,
       "category": "Alimentação",
       "date": "2025-07-29"
     },
     {
-      "id": 1753820218854,
+      "id": "1753820218854",
       "type": "expense",
       "value": 150,
       "category": "Transporte",
       "date": "2024-01-09"
+    },
+    {
+      "id": "1753835307796",
+      "type": "expense",
+      "value": 7,
+      "category": "Saúde",
+      "date": "2025-07-22"
+    },
+    {
+      "id": "1753836724853",
+      "type": "income",
+      "value": 100,
+      "category": "Saúde",
+      "date": "2025-07-30"
+    },
+    {
+      "id": "1753836754602",
+      "type": "expense",
+      "value": 150,
+      "category": "Transporte",
+      "date": "2024-01-09"
+    },
+    {
+      "id": "1753837251296",
+      "type": "income",
+      "value": 100,
+      "category": "Transporte",
+      "date": "2025-07-29"
+    },
+    {
+      "id": "1753837291683",
+      "type": "expense",
+      "value": 150,
+      "category": "Transporte",
+      "date": "2024-01-09"
+    },
+    {
+      "id": 1753838610903,
+      "type": "expense",
+      "value": 2,
+      "category": "Alimentação",
+      "date": "2025-07-29"
     }
   ]
 }

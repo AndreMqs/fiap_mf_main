@@ -12,7 +12,6 @@ export const ManualTransactionForm = ({
   onFieldChange,
   onValueChange,
   onFocusChange,
-  onClear
 }: ManualTransactionFormProps) => {
   const getInputValue = () => {
     if (isFocused) {
@@ -58,6 +57,7 @@ export const ManualTransactionForm = ({
           value={formData.date}
           onChange={(e) => onFieldChange('date', e.target.value)}
           className={styles.inputValue}
+          max={new Date().toISOString().split('T')[0]}
         />
       </span>
       <span className={styles.inputContainer}>
