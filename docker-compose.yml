@@ -16,6 +16,6 @@ services:
     volumes:
       - ./db.json:/app/db.json
     ports:
-      - "3000:3000"
-    command: npx json-server --watch db.json --port 3000 --host 0.0.0.0
+      - "3005:80"
+    command: npx json-server --watch db.json --port 3005 --host 0.0.0.0
     restart: always
