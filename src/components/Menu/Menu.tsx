@@ -9,14 +9,12 @@ export default function Menu(props: MenuProps) {
   const handleMenuClick = (title: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Menu button clicked:', title);
     onMenuClick(title);
   };
 
   const handleContainerClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Menu container clicked');
   };
 
   return (

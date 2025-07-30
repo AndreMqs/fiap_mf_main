@@ -10,11 +10,9 @@ export const useStore = create<StoreState>((set, get) => ({
   error: null,
 
   fetchUser: async () => {
-    console.log('Fetching user...');
     set({ isLoading: true, error: null });
     try {
       const user = await api.fetchUser();
-      console.log('User fetched:', user);
       set({ user, isLoading: false });
     } catch (error) {
       console.error('Error fetching user:', error);
