@@ -1,51 +1,47 @@
 import { User, Transaction, TransactionFormData } from '../types';
+import dbData from '../../db.json';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-console.log('API_BASE_URL loaded:', API_BASE_URL);
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const api = {
   async fetchUser(): Promise<User> {
-    const response = await fetch(`${API_BASE_URL}/user`);
-    if (!response.ok) {
-      throw new Error('Erro ao carregar dados do usuário');
-    }
-    const user = await response.json();
-    return user;
+    await delay(300); 
+    return dbData.user;
   },
 
   async fetchTransactions(): Promise<Transaction[]> {
-    const response = await fetch(`${API_BASE_URL}/transactions`);
-    if (!response.ok) {
-      throw new Error('Erro ao carregar transações');
-    }
-    return response.json();
+    await delay(300); 
+    return dbData.transactions.map(transaction => ({
+      id: typeof transaction.id === 'string' ? parseInt(transaction.id) : transaction.id,
+      type: transaction.type as 'income' | 'expense',
+      value: transaction.value,
+      category: transaction.category as 'Alimentação' | 'Moradia' | 'Saúde' | 'Estudo' | 'Transporte',
+      date: transaction.date
+    }));
   },
 
   async addTransaction(transactionData: TransactionFormData): Promise<Transaction> {
-    const response = await fetch(`${API_BASE_URL}/transactions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...transactionData,
-        id: Date.now(),
-      }),
-    });
+    await delay(300); 
     
-    if (!response.ok) {
-      throw new Error('Erro ao adicionar transação');
-    }
-    return response.json();
+    const newTransaction: Transaction = {
+      ...transactionData,
+      id: Date.now(),
+    };
+    
+    // Adicionar à lista local (em uma aplicação real, isso seria persistido)
+    dbData.transactions.push(newTransaction);
+    
+    return newTransaction;
   },
 
   async deleteTransaction(id: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/transactions/${id}`, {
-      method: 'DELETE',
-    });
+    await delay(300); // Simular delay de rede
     
-    if (!response.ok) {
-      throw new Error('Erro ao deletar transação');
+    const index = dbData.transactions.findIndex(t => 
+      typeof t.id === 'string' ? parseInt(t.id) === id : t.id === id
+    );
+    if (index !== -1) {
+      dbData.transactions.splice(index, 1);
     }
   },
 }; 
