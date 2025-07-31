@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { api } from '../services/api';
 import { StoreState } from '../types/store';
 import { TransactionFormData } from '../types/api';
+import { useUser } from '../hooks/useParentApp';
 
 export const useStore = create<StoreState>((set, get) => ({
   user: null,
@@ -10,9 +11,10 @@ export const useStore = create<StoreState>((set, get) => ({
   error: null,
 
   fetchUser: async () => {
+    const { getUserName } = useUser();
     set({ isLoading: true, error: null });
     try {
-      const user = await api.fetchUser();
+      const user = {...await api.fetchUser(), name: getUserName()};
       set({ user, isLoading: false });
     } catch (error) {
       console.error('Error fetching user:', error);

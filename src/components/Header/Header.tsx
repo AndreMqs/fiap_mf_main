@@ -8,11 +8,15 @@ import Avatar from "../../images/Avatar.svg";
 import Fechar from "../../images/Fechar.svg";
 
 import { HeaderProps } from "../../types/header";
+
+import { useUser } from "../../hooks/useParentApp";
+
 import styles from "./Header.module.scss"
 
 
 export default function Header(props: HeaderProps) {
   const {items, onMenuClick} = props;
+  const { getUserName } = useUser();
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -26,7 +30,7 @@ export default function Header(props: HeaderProps) {
   const renderDesktopHeader = () => {
     return (
       <span className={styles.userNameContainer}>
-        <span className={styles.userName}>Joana da Silva Oliveira</span>
+        <span className={styles.userName}>{getUserName()}</span>
         <img 
           src={Avatar} 
           alt="Avatar" 
