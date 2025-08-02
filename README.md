@@ -1,54 +1,126 @@
-# React + TypeScript + Vite
+# Projeto de Gerenciamento Financeiro com Microfrontends
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto tem como proposta **aprimorar e escalar** uma aplicação de **gerenciamento financeiro**, utilizando uma arquitetura baseada em **microfrontends com Module Federation**, garantindo **integração eficiente** entre os módulos e **deploys otimizados** em ambientes cloud.
 
-Currently, two official plugins are available:
+## Arquitetura Microfrontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A aplicação é composta por três repositórios distintos que se integram via **Module Federation**:
 
-## Expanding the ESLint configuration
+- [`fiap_mf_consumer_root`](https://github.com/AndreMqs/fiap_mf_consumer_root): container principal e orquestrador de rotas
+- [`fiap_mf_home`](https://github.com/AndreMqs/fiap_mf_home): landing page (home)
+- [`fiap_mf_main`](https://github.com/AndreMqs/fiap_mf_main): área logada do sistema
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Executando Localmente
+
+### Pré-requisitos
+
+Antes de iniciar, verifique se você possui o **Node.js** instalado:
+
+```bash
+node -v
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Se não estiver instalado, baixe e instale a versão LTS através do site oficial:  
+https://nodejs.org/
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
+### 1. fiap_mf_consumer_root (Container Principal)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+Responsável por integrar os microfrontends e gerenciar as rotas da aplicação.
+
+**Passos para rodar localmente:**
+
+```bash
+git clone https://github.com/AndreMqs/fiap_mf_consumer_root
+cd fiap_mf_consumer_root
+npm install
 ```
+
+1. No arquivo `vite.config.ts`:
+   - **Comente** a linha dos remotes para EC2
+   - **Descomente** a linha dos remotes para build local
+
+```ts
+// remotes: {
+//   home: `http://${elastic_ip}:3001/assets/remoteEntry.js`,
+//   main: `http://${elastic_ip}:3002/assets/remoteEntry.js`,
+// }
+
+remotes: {
+  home: 'http://localhost:3001/assets/remoteEntry.js',
+  main: 'http://localhost:3002/assets/remoteEntry.js',
+}
+```
+
+```bash
+npm run build
+npm run serve
+```
+
+---
+
+### 2. fiap_mf_home (Landing Page)
+
+Microfrontend responsável pela tela inicial da aplicação.
+
+**Passos para rodar localmente:**
+
+```bash
+git clone https://github.com/AndreMqs/fiap_mf_home
+cd fiap_mf_home
+npm install
+```
+
+1. No arquivo `vite.config.ts`, altere a constante `isDevEnv` para `true`:
+
+```ts
+const isDevEnv = true;
+```
+
+```bash
+npm run build
+npm run serve
+```
+
+**Tecnologias utilizadas:**
+
+- React
+- TypeScript
+- `module.scss`
+
+---
+
+### 3. fiap_mf_main (Área Logada)
+
+Microfrontend responsável pela área logada da aplicação, onde ficam as features e gráficos financeiros.
+
+**Passos para rodar localmente:**
+
+```bash
+git clone https://github.com/AndreMqs/fiap_mf_main
+cd fiap_mf_main
+npm install
+npm run build
+npm run serve
+```
+
+**Tecnologias utilizadas:**
+
+- React
+- TypeScript
+- Zustand (gerenciamento de estado)
+- Recharts (gráficos)
+- `module.scss`
+
+---
+
+## Observações Finais
+
+- Todos os microfrontends devem estar rodando **simultaneamente** para a aplicação funcionar corretamente.
+- A porta padrão para cada módulo é:
+  - `fiap_mf_consumer_root`: `3000`
+  - `fiap_mf_home`: `3001`
+  - `fiap_mf_main`: `3002`
+
